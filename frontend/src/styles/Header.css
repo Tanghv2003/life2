@@ -1,0 +1,52 @@
+.header {
+    display: flex;
+    justify-content: space-between;  /* Căn chỉnh phần tử title và phần tử tìm kiếm cách xa nhau */
+    align-items: center;            /* Căn giữa theo chiều dọc */
+    padding: 15px;
+    background-color: transparent;     /* Thêm màu nền cho header */
+    height: 8%;
+    width: 97%;
+  }
+  
+  .header__title {
+    display: flex;
+    flex-direction: column;         /* Tiêu đề và ngày tháng nằm theo chiều dọc */
+  }
+  
+  .header__title h1 {
+    margin: 0;                      /* Loại bỏ margin mặc định của h1 */
+    font-size: 24px;
+  }
+  
+  .header__title p {
+    margin: 5px 0 0;                /* Thêm khoảng cách giữa ngày tháng và tiêu đề */
+    font-size: 14px;
+    color: #555;                    /* Màu xám cho ngày tháng */
+  }
+  
+  .header__search {
+    margin-left: 650px;
+    display: flex;                  /* Tạo một flexbox để căn chỉnh input và button */
+    align-items: center;            /* Căn giữa theo chiều dọc */
+  }
+  
+  .header__search input {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;             /* Khoảng cách giữa input và button */
+  }
+  
+  .header__search button {
+    padding: 8px;
+    background-color: #4CAF50;      /* Màu nền xanh cho button */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .header__search button i {
+    color: white;                   /* Màu của icon search */
+  }
+  

@@ -1,0 +1,47 @@
+.greeting-container {
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;  /* Đặt các phần tử cách nhau */
+    
+    background-color: #00FFCC;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    
+    width: 98%; /* Chiều rộng của container */
+    height: 18%;
+  }
+  
+  .text {
+    flex: 1;
+    text-align: left;
+  }
+  
+  h1 {
+    font-size: 24px;
+    color: #4CAF50;
+  }
+  
+  a {
+    font-size: 16px;
+    color: #555;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: #000;
+    font-weight: bold;
+  }
+  
+  .img {
+    flex-shrink: 0;
+  }
+  
+  .profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
