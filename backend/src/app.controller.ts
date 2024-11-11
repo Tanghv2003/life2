@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { SensorService } from './sensor/sensor.service';
-
+import { AppService } from './app.service';
 
 @Controller('sensor')  // Kiểm tra route của controller
 export class AppController {
@@ -8,6 +8,7 @@ export class AppController {
 
   @Get()
   getSensorData() {
+    
     return this.sensorService.getSensorData();  // Trả về dữ liệu từ service
   }
 }

@@ -9,7 +9,7 @@ export class SensorService {
       heartRate: 75, // Nhịp tim
       acceleration: 0.98, // Gia tốc
     };
-
+    console.log("test");
     return sensorData;
   }
 }
