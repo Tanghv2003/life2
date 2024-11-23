@@ -1,10 +1,16 @@
 import { Module } from '@nestjs/common';
-import { SensorModule } from './sensor/sensor.module';
 import { AppController } from './app.controller';
-import { MqttModule } from './mqtt/mqtt.module';
+import { AppService } from './app.service';
+import { HttpModule } from './http/http.module';
 
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [SensorModule,MqttModule], // Đảm bảo SensorModule được import ở đây
+  imports: [
+    MongooseModule.forRoot('mongodb+srv://tanghvinfo:bhXe73BqgvB2QgTk@clusterlife.kc56d.mongodb.net/hust_life'),
+    HttpModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

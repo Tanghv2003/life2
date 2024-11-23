@@ -4,16 +4,16 @@
 #include <WiFiClientSecure.h>
 #include <base64.h>
 #include <DHT.h>
-#include <ArduinoJson.h>  // Thêm thư viện ArduinoJson
+#include <ArduinoJson.h>  
 
-#define DHT_PIN 27   // Chân kết nối cảm biến DHT
-#define DHT_TYPE DHT22 // Hoặc DHT22 tùy vào loại cảm biến
+#define DHT_PIN 27   
+#define DHT_TYPE DHT22 
 
-// Thông tin Wi-Fi
+
 const char* ssid = "T4";
 const char* password = "77778888";
 
-// Thông tin MQTT
+
 const char* mqtt_server = "c1bffcc444af44f2a7463a025ddf7337.s1.eu.hivemq.cloud";
 const int mqtt_port = 8883;
 const char* mqtt_user = "tanghvzozo"; 
@@ -56,10 +56,10 @@ emyPxgcYxn/eR44/KJ4EBs+lVDR3veyJm+kXQ99b21/+jh5Xos1AnX5iItreGCc=
 WiFiClientSecure espClient;
 PubSubClient client(espClient);
 
-// Khai báo đối tượng DHT
+
 DHT dht(DHT_PIN, DHT_TYPE);
 
-// Hàm xử lý tin nhắn MQTT
+
 void callback(char* topic, byte* payload, unsigned int length) {
   String message = "";
   for (int i = 0; i < length; i++) {
@@ -68,7 +68,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.printf("Message received on topic [%s]: %s\n", topic, message.c_str());
 }
 
-// Kết nối Wi-Fi
+
 void setupWiFi() {
   delay(1000);
   Serial.println("Connecting to WiFi...");
@@ -80,13 +80,13 @@ void setupWiFi() {
   Serial.println("Connected to WiFi");
 }
 
-// Kết nối MQTT
+
 void reconnect() {
   while (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
     if (client.connect("ESP32Client", mqtt_user, mqtt_password)) {
       Serial.println("connected");
-      client.subscribe("test");  // Đăng ký topic bạn muốn nhận
+      client.subscribe("test"); 
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -96,7 +96,7 @@ void reconnect() {
   }
 }
 
-// Gửi dữ liệu từ cảm biến DHT lên MQTT dưới dạng JSON
+
 void sendDataToMQTT() {
   float h = dht.readHumidity();  // Đọc độ ẩm
   float t = dht.readTemperature();  // Đọc nhiệt độ
@@ -116,12 +116,12 @@ void sendDataToMQTT() {
   doc["nhiptim"] = heart;
   doc["giatoc"]  = g;
 
-  // Chuyển đổi đối tượng JSON thành chuỗi
+  
   String payload;
   serializeJson(doc, payload);
 
-  // Gửi dữ liệu dưới dạng JSON lên MQTT
-  client.publish("tanghv_topic", payload.c_str()); // Chọn topic và gửi dữ liệu
+  
+  client.publish("tanghv_topic", payload.c_str()); 
   Serial.println("Data sent: " + payload);
 }
 
@@ -131,7 +131,7 @@ void setup() {
   espClient.setCACert(ca_cert); 
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback); 
-  dht.begin();  // Khởi động cảm biến DHT
+  dht.begin();  
 }
 
 void loop() {
@@ -140,7 +140,7 @@ void loop() {
   }
   client.loop();
 
-  // Gửi dữ liệu từ DHT mỗi 10 giây
+  
   sendDataToMQTT();
-  delay(20000); // Chờ 5 giây trước khi gửi lại
+  delay(20000); 
 }

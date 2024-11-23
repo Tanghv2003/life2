@@ -1,14 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
-import { SensorService } from './sensor/sensor.service';
 import { AppService } from './app.service';
 
-@Controller('sensor')  // Kiểm tra route của controller
+@Controller('/home')
 export class AppController {
-  constructor(private readonly sensorService: SensorService) {}
+  constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getSensorData() {
-    
-    return this.sensorService.getSensorData();  // Trả về dữ liệu từ service
+  @Get('/hello')
+  getHello(): string {
+    return this.appService.getHello();
   }
 }
