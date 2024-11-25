@@ -5,7 +5,8 @@ import Navbar from './components/Navbar';
 import Home from './pages/Homepage/Home';
 import './App.css'
 import HistoryPage from './pages/HistoryPage/HistoryPage';
-
+import AdvicePage from './pages/AdvicePage/AdvicePage'
+import InsightPage from './pages/InsightPage/InsightPage'
 
 class App extends Component {
   render() {
@@ -20,6 +21,8 @@ class App extends Component {
             <Route path="/" element={<Home />} />
             <Route path="history" element={<HistoryPage />} />
             <Route path="about" element = {<Home/>}/>
+            <Route path="insights" element = {<InsightPage/>}/>
+            <Route path="advice" element = {<AdvicePage/>}/>
           </Routes>
         </div>
       </Router>

@@ -11,13 +11,13 @@ export class HttpServices{
         @InjectModel('Esp32Data') private readonly esp32DataModel: Model<Esp32Data>,
     ) {}
 
-    processData(data : Esp32Dto) : string {
-        console.log('Dữ liệu nhận từ ESP32:', data);
-        return `${data.temperature}`;
-    }
-
+   
     async saveEsp32Data(esp32Dto: Esp32Dto): Promise<Esp32Data> {
         const createdEsp32Data = new this.esp32DataModel(esp32Dto);
         return createdEsp32Data.save();
       }
+
+    async getEsp32Data(): Promise<Esp32Data[]> {
+        return this.esp32DataModel.find().exec();
+    }
 }

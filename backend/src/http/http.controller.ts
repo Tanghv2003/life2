@@ -1,7 +1,7 @@
 import { Controller,Get, Post, Body } from "@nestjs/common";
 import { HttpServices } from "./http.services";
 import { Esp32Dto } from './dto/esp32data.dto';
-
+import { Esp32Data } from "./schemas/esp32data.schema";
 
 @Controller('http')
 export class HttpController{
@@ -15,6 +15,9 @@ export class HttpController{
         return `Data saved with ID: ${savedData.id}`;
     }
 
-
+    @Get()
+    async getEsp32Data(): Promise<Esp32Data[]> {
+    return this.httpServices.getEsp32Data();
+    }
 
 }

@@ -23,19 +23,19 @@ class Navbar extends Component {
           </li>
 
           <li className="navbar-item">
-            <NavLink to="/about" activeClassName="active" className="navbar-link">
+            <NavLink to="/insights" activeClassName="active" className="navbar-link">
+              Insights
+            </NavLink>
+          </li>
+
+          <li className="navbar-item">
+            <NavLink to="/advice" activeClassName="active" className="navbar-link">
               Advice
             </NavLink>
           </li>
 
           <li className="navbar-item">
-            <NavLink to="/about" activeClassName="active" className="navbar-link">
-              Contact
-            </NavLink>
-          </li>
-
-          <li className="navbar-item">
-            <NavLink to="/about" activeClassName="active" className="navbar-link">
+            <NavLink to="/logout" activeClassName="active" className="navbar-link">
               Log out
             </NavLink>
           </li>
