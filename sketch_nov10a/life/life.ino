@@ -9,7 +9,7 @@
 #include <PulseSensorPlayground.h>  // Thêm thư viện PulseSensorPlayground
 
 // WiFi credentials
-const char* ssid = "T4";   
+const char* ssid = "Tang 4";   
 const char* password = "77778888"; 
 
 // DHT sensor setup
@@ -144,7 +144,7 @@ void loop() {
   }
 
   // Chờ một chút trước khi gửi dữ liệu tiếp theo
-  delay(20000);
+  delay(2000);
 }
 
 // Lấy timestamp từ NTP Client

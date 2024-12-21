@@ -1,42 +1,67 @@
-/* Navbar.css */
+/* Tổng thể Navbar */
 .navbar {
-  width: 140px; /* Đặt chiều rộng của navbar */
-  background-color: #33CCCC; /* Màu nền của navbar */
-  height: 100vh; /* Chiều cao của navbar chiếm toàn bộ chiều cao màn hình */
-  display: flex; /* Dùng Flexbox để căn chỉnh các phần tử */
-  flex-direction: column; /* Đặt các item trong navbar theo chiều dọc */
-  justify-content: flex-start; /* Căn các item lên trên */
-  align-items: flex-start; /* Căn các item về phía lề trái */
-  padding-top: 20px; /* Khoảng cách trên cho navbar */
-  padding-left: 20px; /* Thêm khoảng cách trái cho các mục */
-  border-right: 2px solid #fff; /* Đường viền bên phải của navbar */
+  background-color: #333;
+  color: #fff;
+  padding: 10px 0;
+  width: 70px; /* Chiều rộng cố định */
+  text-align: center; /* Căn giữa nội dung */
+  border-radius: 15px;
+  background-color: #2279BE;
 }
 
+/* Tiêu đề Navbar */
+.navbar-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  color: #fff;
+  text-align: center; /* Căn giữa tổng thể */
+  line-height: 1.5; /* Khoảng cách dòng */
+}
+
+/* Chữ HUST */
+.navbar-title-hust {
+  display: inline-block;
+  position: relative;
+  left: -10px; /* Lệch sang phải */
+}
+
+/* Chữ LIFE */
+.navbar-title-life {
+  display: inline-block;
+  position: relative;
+  left: 10px; /* Lệch sang trái */
+}
+
+/* Danh sách các mục trong Navbar */
 .navbar-list {
-  list-style-type: none; /* Loại bỏ dấu chấm */
-  padding: 0; /* Loại bỏ khoảng cách mặc định */
-  margin: 0; /* Loại bỏ khoảng cách mặc định */
-  width: 100%; /* Đảm bảo danh sách chiếm đầy chiều rộng navbar */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column; /* Sắp xếp dọc */
+  align-items: center; /* Căn giữa các mục */
+  margin-top: 150px;
 }
 
+/* Từng mục trong danh sách */
 .navbar-item {
-  margin-bottom: 15px; /* Khoảng cách giữa các item */
+  margin: 15px 0;
 }
 
+/* Liên kết trong mục */
 .navbar-link {
-  color: white; /* Màu chữ của các liên kết */
-  text-decoration: none; /* Loại bỏ gạch chân */
-  font-size: 18px; /* Kích thước chữ */
-  display: block; /* Chuyển liên kết thành block element để dễ dàng điều chỉnh */
-  padding: 10px;
-  transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu nền khi hover */
+  text-decoration: none; /* Xóa gạch chân */
 }
 
-.navbar-link:hover {
-  background-color: #555; /* Màu nền khi hover */
+/* Biểu tượng trong liên kết */
+.navbar-icon {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease-in-out; /* Hiệu ứng phóng to khi hover */
 }
 
-.active {
-  font-weight: bold; /* Đậm chữ khi item đang được chọn */
-  color: yellow; /* Màu chữ khi active */
+.navbar-link:hover .navbar-icon {
+  transform: scale(1.1); /* Phóng to khi hover */
 }

@@ -1,12 +1,16 @@
 
   .home {
     display: flex;
-    justify-content: space-between;  /* Căn chỉnh các phần tử con theo chiều ngang */
-    padding: 20px;
+    justify-content: space-between;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+    padding-left: 13px;
+    
   }
   
   .home-content {
     display: flex;
-    justify-content: space-between;  /* Căn chỉnh giữa MainContent và Profile */
+    justify-content: space-between;  
     width: 100%;
   }
