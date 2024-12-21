@@ -1,29 +1,19 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+// src/user/schemas/user.schema.ts
+import { Schema, Document } from 'mongoose';
 
-// Định nghĩa Schema cho User
-@Schema()
-export class User extends Document {
-  @Prop({ required: true })
+export const UserSchema = new Schema({
+  name: { type: String, required: true },
+  dateOfBirth: { type: Date, required: true },
+  gender: { type: String, required: true },
+  height: { type: Number, required: true },
+  weight: { type: Number, required: true },
+});
+
+export interface User extends Document {
+  id: string;
   name: string;
-
-  @Prop({ required: true, unique: true })
-  email: string;
-
-  @Prop({ required: true })
-  password: string;
-
-  @Prop({ required: true })
-  age: number;
-
-  @Prop({ required: true })
-  height: number; // Chiều cao tính theo cm (ví dụ: 175)
-
-  @Prop({ required: true })
-  weight: number; // Cân nặng tính theo kg (ví dụ: 70)
-
-  @Prop({ required: true })
-  avatar: string; // Link đến hình ảnh avatar
+  dateOfBirth: Date;
+  gender: string;
+  height: number;
+  weight: number;
 }
-
-export const UserSchema = SchemaFactory.createForClass(User);
