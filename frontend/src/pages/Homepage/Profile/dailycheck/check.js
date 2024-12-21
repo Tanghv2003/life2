@@ -61,8 +61,7 @@ const Check = () => {
   return (
     <div className="survey-container">
       <header className="survey-header">
-        <h1 className="survey-title">Daily Check Your Health</h1>
-        
+        <h1 className="survey-title">Daily Check</h1>
       </header>
 
       <form className="survey-form" onSubmit={handleSubmit}>
