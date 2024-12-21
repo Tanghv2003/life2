@@ -3,7 +3,7 @@
     justify-content: space-between; /* Để đảm bảo khoảng cách giữa các biểu đồ */
     align-items: flex-start; /* Căn trên để có không gian cho biểu đồ tròn */
     gap: 20px; /* Khoảng cách giữa biểu đồ tròn và biểu đồ cột */
-    height: 350px
+    height: 360px
   }
   
   .rate__chart {
