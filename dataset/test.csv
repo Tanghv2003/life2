@@ -1,29 +1,14 @@
-HeartDisease,BMI,Smoking,AlcoholDrinking,Stroke,PhysicalHealth,MentalHealth,DiffWalking,Sex,AgeCategory,Race,Diabetic,PhysicalActivity,GenHealth,SleepTime,Asthma,KidneyDisease,SkinCancer
-Yes,36.21,Yes,No,No,0.0,0.0,Yes,Female,75-79,Hispanic,Yes,Yes,Good,8.0,No,No,No
-No,32.78,No,No,No,0.0,0.0,No,Male,45-49,Hispanic,No,Yes,Very good,6.0,No,No,No
-No,25.25,No,No,No,0.0,0.0,No,Male,65-69,Hispanic,Yes,Yes,Good,7.0,No,No,No
-No,26.63,No,No,No,0.0,0.0,No,Female,45-49,Hispanic,No,No,Very good,6.0,No,No,No
-No,23.62,No,No,No,0.0,0.0,No,Male,25-29,Hispanic,No,Yes,Good,7.0,No,No,No
-No,30.9,No,No,No,0.0,0.0,No,Female,18-24,Hispanic,No,Yes,Excellent,7.0,No,No,No
-No,26.45,No,No,No,3.0,2.0,No,Female,18-24,Hispanic,No,No,Fair,8.0,No,No,No
-No,20.36,No,No,No,30.0,0.0,Yes,Female,55-59,Hispanic,Yes,Yes,Fair,8.0,No,No,No
-No,24.37,Yes,No,No,0.0,0.0,No,Male,35-39,Hispanic,No,No,Good,8.0,No,No,No
-No,27.98,No,No,No,0.0,0.0,No,Female,50-54,Hispanic,No,No,Good,8.0,No,No,No
-No,42.57,No,No,No,0.0,0.0,Yes,Female,60-64,Hispanic,No,No,Good,7.0,No,No,No
-No,26.63,No,No,No,0.0,0.0,No,Female,25-29,Hispanic,No,No,Very good,8.0,No,No,No
-No,23.38,Yes,No,No,30.0,0.0,Yes,Female,70-74,Hispanic,No,Yes,Fair,5.0,No,No,No
-No,30.67,No,No,No,0.0,8.0,No,Female,25-29,Hispanic,No,Yes,Very good,7.0,No,No,No
-Yes,37.12,Yes,No,No,0.0,0.0,No,Male,35-39,Hispanic,No,Yes,Very good,7.0,No,No,No
-No,31.89,Yes,No,No,30.0,30.0,Yes,Female,55-59,Hispanic,No,No,Fair,4.0,No,No,No
-No,33.28,No,No,No,0.0,0.0,No,Female,30-34,Hispanic,No,Yes,Excellent,8.0,No,No,No
-No,26.58,Yes,No,No,0.0,0.0,Yes,Male,75-79,Hispanic,No,Yes,Good,6.0,No,No,No
-No,31.93,No,Yes,No,0.0,0.0,No,Male,65-69,Hispanic,No,Yes,Good,7.0,No,No,No
-Yes,33.2,Yes,No,No,0.0,0.0,No,Female,60-64,Hispanic,Yes,Yes,Very good,8.0,Yes,No,No
-No,36.54,No,No,No,7.0,0.0,No,Male,30-34,Hispanic,No,No,Good,9.0,No,No,No
-No,23.38,No,No,No,0.0,0.0,No,Female,60-64,Hispanic,No,Yes,Excellent,6.0,No,No,No
-No,22.22,No,No,No,0.0,0.0,No,Female,18-24,Hispanic,No,Yes,Excellent,8.0,No,No,No
-Yes,27.41,Yes,No,No,7.0,0.0,Yes,Male,60-64,Hispanic,Yes,No,Fair,6.0,Yes,No,No
-No,29.84,Yes,No,No,0.0,0.0,No,Male,35-39,Hispanic,No,Yes,Very good,5.0,Yes,No,No
-No,24.24,No,No,No,0.0,0.0,No,Female,45-49,Hispanic,No,Yes,Good,6.0,No,No,No
-No,32.81,No,No,No,0.0,0.0,No,Female,25-29,Hispanic,No,No,Good,12.0,No,No,No
-No,46.56,No,No,No,0.0,0.0,No,Female,80 or older,Hispanic,No,Yes,Good,8.0,No,No,No
+BMI,Smoking,AlcoholDrinking,Stroke,PhysicalHealth,MentalHealth,DiffWalking,Sex,AgeCategory,PhysicalActivity,GenHealth,SleepTime,Asthma,KidneyDisease,SkinCancer,Race_American Indian/Alaskan Native,Race_Asian,Race_Black,Race_Hispanic,Race_Other,Race_White,Diabetic_No,"Diabetic_No, borderline diabetes",Diabetic_Yes,Diabetic_Yes (during pregnancy)
+16,1,0,0,3,30,0,0,7,1,3,5,1,0,1,0,0,0,0,0,1,0,0,1,0
+20,0,0,1,0,0,0,0,12,1,3,7,0,0,0,0,0,0,0,0,1,1,0,0,0
+26,1,0,0,20,30,0,1,9,1,1,8,1,0,0,0,0,0,0,0,1,0,0,1,0
+24,0,0,0,0,0,0,0,11,0,2,6,0,0,1,0,0,0,0,0,1,1,0,0,0
+23,0,0,0,28,0,1,0,4,1,3,8,0,0,0,0,0,0,0,0,1,1,0,0,0
+21,0,0,0,15,0,0,0,10,1,1,4,1,0,1,0,0,0,0,0,1,1,0,0,0
+31,1,0,0,5,0,1,0,12,0,2,9,1,0,0,0,0,0,0,0,1,0,0,1,0
+26,0,0,0,0,0,0,0,12,0,1,5,0,1,0,0,0,0,0,0,1,0,1,0,0
+40,0,0,0,0,0,1,1,9,1,2,10,0,0,0,0,0,0,0,0,1,1,0,0,0
+28,1,0,0,0,0,0,0,7,1,3,5,0,0,0,0,0,0,0,0,1,1,0,0,0
+28,1,0,0,0,0,1,1,11,1,3,8,0,0,0,0,0,0,0,0,1,0,0,1,0
+28,0,0,0,7,0,1,0,12,0,2,7,0,0,0,0,0,0,0,0,1,1,0,0,0
+29,1,0,0,0,30,1,0,8,0,2,5,0,0,0,0,0,0,0,0,1,1,0,0,0
