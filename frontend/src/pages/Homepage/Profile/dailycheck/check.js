@@ -1,61 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './check.css';
+import { getAllDailyChecks, updateDailyCheck, createDailyCheck } from '../../../../services/daily';
 
-// Lưu lịch sử khảo sát trong localStorage hoặc có thể thay thế bằng API
-const loadHistory = () => {
-  const history = JSON.parse(localStorage.getItem('surveyHistory')) || [];
-  return history;
-};
-
-const saveSurvey = (surveyData) => {
-  let history = loadHistory();
-
-  // Kiểm tra xem ngày đã tồn tại chưa
-  const existingIndex = history.findIndex(survey => survey.date === surveyData.date);
-  if (existingIndex !== -1) {
-    // Nếu tồn tại, cập nhật thông tin
-    history[existingIndex] = surveyData;
-  } else {
-    // Nếu không tồn tại, thêm mới
-    history.push(surveyData);
-  }
-
-  localStorage.setItem('surveyHistory', JSON.stringify(history));
+// Hàm chuyển đổi mức độ sức khỏe thành chuỗi "0" hoặc "1"
+const convertHealthStatus = (healthStatus) => {
+  return healthStatus === 'Good' ? '1' : '0';
 };
 
 const Check = () => {
   const [date, setDate] = useState('');
   const [physicalHealth, setPhysicalHealth] = useState('');
   const [mentalHealth, setMentalHealth] = useState('');
-  const [history, setHistory] = useState(loadHistory());
-  const [filteredHistory, setFilteredHistory] = useState(history);
+  const [surveyToEdit, setSurveyToEdit] = useState(null);
+  const [notification, setNotification] = useState(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Lưu thông tin khảo sát vào lịch sử
-    const surveyData = {
-      date: date,
-      physicalHealth: physicalHealth,
-      mentalHealth: mentalHealth,
+  // Lấy tất cả dữ liệu từ backend khi component được load
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getAllDailyChecks();
+        const surveyForDate = data.find(survey => survey.date === date);  // Tìm bản ghi theo ngày
+        if (surveyForDate) {
+          setSurveyToEdit(surveyForDate);
+          setPhysicalHealth(surveyForDate.physicalHealth === '1' ? 'Good' : 'Bad');
+          setMentalHealth(surveyForDate.mentalHealth === '1' ? 'Good' : 'Bad');
+        }
+      } catch (error) {
+        console.error('Không thể lấy dữ liệu Daily Check', error);
+      }
     };
 
-    saveSurvey(surveyData);
-    setHistory(loadHistory()); // Cập nhật lại lịch sử
+    if (date) fetchData();
+  }, [date]);
 
-    // Reset form
-    setDate('');
-    setPhysicalHealth('');
-    setMentalHealth('');
-  };
+  // Cập nhật hoặc tạo mới thông tin khảo sát
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const physicalHealthValue = convertHealthStatus(physicalHealth);
+      const mentalHealthValue = convertHealthStatus(mentalHealth);
 
-  const handleDateChange = (e) => {
-    const selectedDate = e.target.value;
-    setDate(selectedDate);
+      const surveyData = {
+        date: date,  // Giữ nguyên giá trị date, không thay đổi
+        physicalHealth: physicalHealthValue,  // Chuyển thành chuỗi "0" hoặc "1"
+        mentalHealth: mentalHealthValue,      // Chuyển thành chuỗi "0" hoặc "1"
+      };
 
-    // Lọc lịch sử theo ngày được chọn
-    const filtered = history.filter(survey => survey.date === selectedDate);
-    setFilteredHistory(filtered);
+      if (surveyToEdit) {
+        // Cập nhật bản ghi đã sửa
+        const updatedSurvey = await updateDailyCheck(surveyToEdit.id, surveyData);
+        setSurveyToEdit(updatedSurvey);  // Cập nhật bản ghi đã sửa
+        setNotification({ type: 'success', message: 'Cập nhật thông tin khảo sát thành công!' });
+      } else {
+        // Tạo mới thông tin khảo sát
+        const newSurvey = await createDailyCheck(surveyData);
+        setSurveyToEdit(newSurvey);  // Cập nhật survey mới
+        setNotification({ type: 'success', message: 'Tạo mới thông tin khảo sát thành công!' });
+      }
+
+      // Reset form sau khi lưu
+      setPhysicalHealth('');
+      setMentalHealth('');
+    } catch (error) {
+      console.error('Không thể lưu thông tin khảo sát', error);
+      setNotification({ type: 'error', message: 'Có lỗi xảy ra, không thể lưu thông tin khảo sát!' });
+    }
   };
 
   return (
@@ -71,7 +80,7 @@ const Check = () => {
             type="date"
             className="form-input"
             value={date}
-            onChange={handleDateChange}
+            onChange={(e) => setDate(e.target.value)}
             required
           />
         </div>
@@ -84,11 +93,8 @@ const Check = () => {
             required
           >
             <option value="">Select level</option>
-            <option value="Very Bad">Very Bad</option>
             <option value="Bad">Bad</option>
-            <option value="Normal">Normal</option>
             <option value="Good">Good</option>
-            <option value="Very Good">Very Good</option>
           </select>
         </div>
         <div className="form-group">
@@ -100,31 +106,18 @@ const Check = () => {
             required
           >
             <option value="">Select level</option>
-            <option value="Very Bad">Very Bad</option>
             <option value="Bad">Bad</option>
-            <option value="Normal">Normal</option>
             <option value="Good">Good</option>
-            <option value="Very Good">Very Good</option>
           </select>
         </div>
         <button type="submit" className="form-button">Save Survey</button>
       </form>
 
-      <h3 className="history-title">Survey History</h3>
-      {date ? (
-        filteredHistory.length > 0 ? (
-          <ul className="history-list">
-            {filteredHistory.map((survey, index) => (
-              <li key={index} className="history-item">
-                <strong>{survey.date}</strong>: Physical {survey.physicalHealth}, Mental {survey.mentalHealth}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="history-empty">No data available for this date.</p>
-        )
-      ) : (
-        <p className="history-empty">Please select a date to view the history.</p>
+      {/* Hiển thị thông báo nếu có */}
+      {notification && (
+        <div className={`notification ${notification.type}`}>
+          {notification.message}
+        </div>
       )}
     </div>
   );
