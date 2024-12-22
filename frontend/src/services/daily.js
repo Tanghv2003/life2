@@ -1,45 +1,37 @@
 import axios from 'axios';
 
-// URL backend của bạn
 const BASE_URL = 'http://localhost:3001/daily-check';
 
-// API để lấy tất cả dữ liệu DailyCheck
+// Lấy tất cả daily checks
 export const getAllDailyChecks = async () => {
   try {
-    const response = await axios.get(BASE_URL);  // Gửi yêu cầu GET để lấy tất cả dữ liệu
-    return response.data;  // Trả về dữ liệu của DailyCheck
+    const { data } = await axios.get(BASE_URL);
+    return data;
   } catch (error) {
     console.error('Không thể lấy danh sách DailyChecks', error);
-    throw error;  // Ném lỗi nếu có vấn đề khi lấy dữ liệu
+    throw error;
   }
 };
 
-// API để thêm một bản ghi DailyCheck
-export const createDailyCheck = async (physicalHealth, mentalHealth) => {
+// Tạo daily check mới
+export const createDailyCheck = async (checkData) => {
   try {
-    const response = await axios.post(BASE_URL, {
-      physicalHealth,
-      mentalHealth,
-      timestamp: new Date().toISOString(),  // Thêm timestamp vào dữ liệu
-    });
-    return response.data;  // Trả về bản ghi vừa thêm
+    const { data } = await axios.post(BASE_URL, checkData);
+    console.log('Đã thêm DailyCheck:', data);
+    return data;
   } catch (error) {
     console.error('Không thể thêm DailyCheck', error);
-    throw error;  // Ném lỗi nếu có vấn đề khi thêm dữ liệu
+    throw error;
   }
 };
 
-// API để cập nhật một bản ghi DailyCheck
-export const updateDailyCheck = async (id, physicalHealth, mentalHealth) => {
+// Cập nhật daily check
+export const updateDailyCheck = async (id, checkData) => {
   try {
-    const response = await axios.put(`${BASE_URL}/${id}`, {
-      physicalHealth,
-      mentalHealth,
-      timestamp: new Date().toISOString(),  // Thêm timestamp vào dữ liệu
-    });
-    return response.data;  // Trả về bản ghi đã cập nhật
+    const { data } = await axios.put(`${BASE_URL}/${id}`, checkData);
+    return data;
   } catch (error) {
     console.error('Không thể cập nhật DailyCheck', error);
-    throw error;  // Ném lỗi nếu có vấn đề khi cập nhật dữ liệu
+    throw error;
   }
 };
