@@ -181,6 +181,10 @@ for method, metrics in results.items():
     print(f"Accuracy: {metrics['Accuracy']}")
     print(f"Classification Report:\n{metrics['Classification Report']}\n")
 
+
+
+
+
 # Save the evaluation metrics for all models
 model_results = {}
 
@@ -246,3 +250,23 @@ plt.ylabel("True Positive Rate (Recall)")
 plt.title("Receiver Operating Characteristic (ROC) Curve")
 plt.legend(loc="lower right")
 plt.show()
+
+
+
+
+data = pd.read_csv('features.csv')
+# Giả sử dữ liệu đã được chuẩn hóa trước khi huấn luyện mô hình. Nếu không, bạn cần chuẩn hóa mẫu này.
+# Trích xuất dòng đầu tiên từ tập CSV (mẫu đầu tiên)
+new_sample = data.iloc[0].values  # Loại bỏ cột mục tiêu nếu có (thay 'target_column' bằng tên cột mục tiêu)
+
+# Nếu bạn đã chuẩn hóa dữ liệu huấn luyện, bạn cần sử dụng cùng một chuẩn hóa cho mẫu này
+# Ví dụ: nếu bạn đã sử dụng StandardScaler
+new_sample_scaled = scaler.transform([new_sample])  # Giả sử 'scaler' là đối tượng StandardScaler đã được huấn luyện
+
+# Dự đoán nhãn cho mẫu mới
+y_pred_new = model.predict(new_sample_scaled)  # Dự đoán nhãn
+y_pred_proba_new = model.predict_proba(new_sample_scaled)[:, 1]  # Dự đoán xác suất cho lớp 1
+
+# In kết quả dự đoán
+print("Dự đoán nhãn cho mẫu đầu tiên:", y_pred_new)
+print("Xác suất của lớp 1 cho mẫu đầu tiên:", y_pred_proba_new)
