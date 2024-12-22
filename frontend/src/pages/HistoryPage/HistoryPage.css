@@ -58,7 +58,7 @@
   }
   
   .sensor-table th {
-    background-color: #0ad1c8;
+    background-color: #2279BE;
     color: white;
   }
   
@@ -93,7 +93,7 @@
   .pagination button {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #0ad1c8;
+    background-color: #2279BE;
     color: white;
     border: none;
     border-radius: 5px;

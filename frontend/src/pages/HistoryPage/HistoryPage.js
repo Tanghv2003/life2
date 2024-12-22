@@ -80,15 +80,15 @@ const SensorDataDisplay = () => {
   return (
     <div className="sensor-data-display">
 
-      <div>Lịch sử dữ liệu cảm biến</div>
+      <div>History of data sensor</div>
 
       
       <div className="time-range-selector">
         <select onChange={(e) => setTimeRange(e.target.value)} value={timeRange}>
-          <option value="all">Tất cả</option>
-          <option value="1h">1 Giờ</option>
-          <option value="1d">1 Ngày</option>
-          <option value="1w">1 Tuần</option>
+          <option value="all">All</option>
+          <option value="1h">1 hour</option>
+          <option value="1d">1 Day</option>
+          <option value="1w">1 Week</option>
         </select>
       </div>
 

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale } from 'chart.js';
-import './InsightPage.css';  // Import CSS
+import 'chart.js/auto'
+import './InsightPage.css';
 import { getdata } from '../../services/getdata';
 
-// Đăng ký các thành phần Chart.js
+
 ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale);
 
 const InsightsPage = () => {
@@ -13,8 +14,8 @@ const InsightsPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await getdata();  // Giả sử getdata() là hàm gọi API
-                setSensorData(data);  // Lưu dữ liệu nhận được vào state
+                const data = await getdata(); 
+                setSensorData(data); 
             } catch (error) {
                 console.error('Không thể lấy dữ liệu:', error);
             }
@@ -23,36 +24,36 @@ const InsightsPage = () => {
         fetchData();
     }, []);
 
-    // Dữ liệu cho biểu đồ với 4 đường
+
     const chartData = {
-        labels: sensorData.map(item => new Date(item.timestamp).toLocaleTimeString()), // Mảng thời gian từ timestamp
+        labels: sensorData.map(item => new Date(item.timestamp).toLocaleTimeString()), 
         datasets: [
             {
-                label: 'Nhịp Tim (bpm)', // Đường nhịp tim
-                data: sensorData.map(item => item.heartRate), // Lấy dữ liệu nhịp tim
+                label: 'Nhịp Tim (bpm)', 
+                data: sensorData.map(item => item.heartRate), 
                 fill: false,
-                borderColor: 'rgb(75, 192, 192)', // Màu sắc cho đường nhịp tim
+                borderColor: 'rgb(75, 192, 192)', 
                 tension: 0.1,
             },
             {
-                label: 'Nhiệt Độ (°C)', // Đường nhiệt độ
-                data: sensorData.map(item => item.temperature), // Lấy dữ liệu nhiệt độ
+                label: 'Nhiệt Độ (°C)', 
+                data: sensorData.map(item => item.temperature), 
                 fill: false,
-                borderColor: 'rgb(255, 99, 132)', // Màu sắc cho đường nhiệt độ
+                borderColor: 'rgb(255, 99, 132)', 
                 tension: 0.1,
             },
             {
-                label: 'Độ Ẩm (%)', // Đường độ ẩm
-                data: sensorData.map(item => item.humidity), // Lấy dữ liệu độ ẩm
+                label: 'Độ Ẩm (%)', 
+                data: sensorData.map(item => item.humidity), 
                 fill: false,
-                borderColor: 'rgb(54, 162, 235)', // Màu sắc cho đường độ ẩm
+                borderColor: 'rgb(54, 162, 235)', 
                 tension: 0.1,
             },
             {
-                label: 'Gia Tốc (m/s²)', // Đường gia tốc
+                label: 'Gia Tốc (m/s²)', 
                 data: sensorData.map(item => Math.sqrt(item.acceleration.x ** 2 + item.acceleration.y ** 2 + item.acceleration.z ** 2)), // Tính gia tốc tổng hợp
                 fill: false,
-                borderColor: 'rgb(153, 102, 255)', // Màu sắc cho đường gia tốc
+                borderColor: 'rgb(153, 102, 255)', 
                 tension: 0.1,
             },
         ],
@@ -63,7 +64,7 @@ const InsightsPage = () => {
         plugins: {
             title: {
                 display: true,
-                text: 'Biểu Đồ Nhịp Tim, Nhiệt Độ, Độ Ẩm và Gia Tốc',
+                text: 'Curve of sensor data',
             },
             tooltip: {
                 mode: 'index',
@@ -85,11 +86,11 @@ const InsightsPage = () => {
             <h1>Health Insights</h1>
             {sensorData.length > 0 ? (
                 <section>
-                    <h2>Biểu Đồ Nhịp Tim, Nhiệt Độ, Độ Ẩm và Gia Tốc</h2>
+                    <h2>Curve of sensor data</h2>
                     <Line data={chartData} options={options} />
                 </section>
             ) : (
-                <p className="loading-message">Đang tải dữ liệu...</p>
+                <p className="loading-message">loading...</p>
             )}
         </div>
     );
