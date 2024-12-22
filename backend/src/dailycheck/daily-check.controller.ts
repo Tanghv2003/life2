@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Put, Delete } from '@nestjs/common';
 import { DailyCheckService } from './daily-check.service';
-import { CreateDailyCheckDto } from './dto/create-daily-check.dto';
 import { DailyCheck } from './schemas/daily-check.schema';
+import { CreateDailyCheckDto } from './dto/create-daily-check.dto';
 
 @Controller('daily-check')
 export class DailyCheckController {
@@ -32,5 +32,16 @@ export class DailyCheckController {
   @Delete(':id')
   remove(@Param('id') id: string): Promise<any> {
     return this.dailyCheckService.remove(id);
+  }
+
+  // Route để lấy DailyCheck theo ngày
+  @Get('by-date/:date')
+  async getDailyCheckByDate(@Param('date') date: string): Promise<DailyCheck | string> {
+    const dailyCheck = await this.dailyCheckService.getDailyCheckByDate(date);
+    if (!dailyCheck) {
+      console.log(`Không có DailyCheck cho ngày ${date}`);
+      return `Không có DailyCheck cho ngày ${date}`;
+    }
+    return dailyCheck;
   }
 }

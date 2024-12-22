@@ -30,4 +30,15 @@ export class DailyCheckService {
   async remove(id: string): Promise<any> {
     return this.dailyCheckModel.findByIdAndDelete(id).exec();
   }
+
+  // Lấy DailyCheck theo ngày (timestamp là chuỗi dạng 'YYYY-MM-DD')
+  async getDailyCheckByDate(date: string): Promise<DailyCheck | null> {
+    // Chuyển đổi ngày nhập vào thành chuỗi theo định dạng 'YYYY-MM-DD'
+    const dateString = new Date(date).toISOString().split('T')[0]; // 'YYYY-MM-DD'
+    console.log(dateString);
+    // Truy vấn tìm DailyCheck có timestamp là chuỗi trùng với dateString
+    return this.dailyCheckModel
+      .findOne({ timestamp: dateString })
+      .exec();
+  }
 }

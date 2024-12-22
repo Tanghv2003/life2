@@ -13,6 +13,17 @@ export const getAllDailyChecks = async () => {
   }
 };
 
+// Lấy daily check theo ngày
+export const getDailyCheckByDate = async (date) => {
+  try {
+    const { data } = await axios.get(`${BASE_URL}/by-date/${date}`);
+    return data;
+  } catch (error) {
+    console.error(`Không thể lấy DailyCheck cho ngày ${date}`, error);
+    throw error;
+  }
+};
+
 // Tạo daily check mới
 export const createDailyCheck = async (checkData) => {
   try {
