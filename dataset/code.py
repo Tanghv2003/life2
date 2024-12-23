@@ -196,31 +196,59 @@ model_results['Logistic Regression'] = {
     'ROC AUC': roc_auc
 }
 
-# Vẽ ma trận nhầm lẫn
-cm = confusion_matrix(y_test, y_pred)
-sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", cbar=False)
-plt.title("Ma trận nhầm lẫn")
-plt.xlabel("Dự đoán")
-plt.ylabel("Thực tế")
-plt.show()
+# # Vẽ ma trận nhầm lẫn
+# cm = confusion_matrix(y_test, y_pred)
+# sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", cbar=False)
+# plt.title("Ma trận nhầm lẫn")
+# plt.xlabel("Dự đoán")
+# plt.ylabel("Thực tế")
+# plt.show()
 
-# Vẽ đồ thị ROC và AUC
-fpr, tpr, thresholds = roc_curve(y_test, y_pred_proba)
+# # Vẽ đồ thị ROC và AUC
+# fpr, tpr, thresholds = roc_curve(y_test, y_pred_proba)
 
-plt.figure(figsize=(8, 6))
-plt.plot(fpr, tpr, label=f"Đường cong ROC (AUC = {roc_auc:.2f})")
-plt.plot([0, 1], [0, 1], linestyle="--", color="gray", label="Dự đoán ngẫu nhiên")
-plt.xlim([0.0, 1.0])
-plt.ylim([0.0, 1.05])
-plt.xlabel("Tỷ lệ dương tính giả (1 - Specificity)")
-plt.ylabel("Tỷ lệ dương tính thật (Recall)")
-plt.title("Đường cong đặc trưng nhận diện (ROC)")
-plt.legend(loc="lower right")
-plt.show()
-data = pd.read_csv('encoded_data.csv')
-new_sample = data.iloc[1].drop('HeartDisease').values
-new_sample_scaled = scaler.transform([new_sample])  
-y_pred_new = model.predict(new_sample_scaled)  
-y_pred_proba_new = model.predict_proba(new_sample_scaled)[:, 1] 
-print("Dự đoán:", y_pred_new)
-print("Xác suất:", y_pred_proba_new)
+# plt.figure(figsize=(8, 6))
+# plt.plot(fpr, tpr, label=f"Đường cong ROC (AUC = {roc_auc:.2f})")
+# plt.plot([0, 1], [0, 1], linestyle="--", color="gray", label="Dự đoán ngẫu nhiên")
+# plt.xlim([0.0, 1.0])
+# plt.ylim([0.0, 1.05])
+# plt.xlabel("Tỷ lệ dương tính giả (1 - Specificity)")
+# plt.ylabel("Tỷ lệ dương tính thật (Recall)")
+# plt.title("Đường cong đặc trưng nhận diện (ROC)")
+# plt.legend(loc="lower right")
+# plt.show()
+
+
+data = pd.read_csv('test.csv')
+
+
+
+correct_predictions = 0
+total_predictions = 0
+
+
+for i in range(1, 20):  
+    
+    actual_value = data.iloc[i]['HeartDisease']  
+    new_sample = data.iloc[i].drop('HeartDisease').values  
+    
+    
+    new_sample_scaled = scaler.transform([new_sample])  
+    
+    
+    y_pred_new = model.predict(new_sample_scaled)[0]  
+    y_pred_proba_new = model.predict_proba(new_sample_scaled)[:, 1][0]  
+
+   
+    total_predictions += 1
+    if y_pred_new == actual_value:
+        correct_predictions += 1
+
+    
+    print(f"Dòng {i}:")
+    print("Giá trị thực tế:", actual_value)
+    print("Dự đoán:", y_pred_new)
+    print("-" * 30)
+
+accuracy = correct_predictions / total_predictions
+print(f"Xác suất dự đoán đúng: {accuracy:.2%}")
