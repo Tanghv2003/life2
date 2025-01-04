@@ -40,4 +40,10 @@ export class UserController {
   async remove(@Param('id') id: string): Promise<User> {
     return this.userServices.remove(id);
   }
+
+  // API endpoint mới để lấy thông tin BMI
+  @Get(':id/bmi')
+  async getBMIInfo(@Param('id') id: string) {
+    return this.userServices.getBMIInfo(id);
+  }
 }

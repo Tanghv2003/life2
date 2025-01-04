@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import editIcon from '../../../../assets/edit.png';
 import docIcon from '../../../../assets/doc.png';
 import './info.css';
+import { userService } from '../../../../services/user/user';
 
 const formatDateOfBirth = (dateString) => {
   const date = new Date(dateString);
@@ -12,27 +14,35 @@ const formatDateOfBirth = (dateString) => {
   });
 };
 
+const validateUserData = (data) => {
+  if (!data.name) return 'Name is required';
+  if (!data.dateOfBirth) return 'Date of birth is required';
+  if (data.height <= 0) return 'Height must be greater than 0';
+  if (data.weight <= 0) return 'Weight must be greater than 0';
+  return null;
+};
+
 const Info = () => {
+  const userId = '67671fc9f438338fceba7540';
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [saving, setSaving] = useState(false);
+
   const [user, setUser] = useState({
-    name: 'Nguyễn Văn A',
+    name: '',
     avatar: 'https://example.com/avatar.png',
-    dateOfBirth: '1998-12-15',
-    height: 170,
-    weight: 65,
-    gender: 'Male',
+    dateOfBirth: '',
+    height: 0,
+    weight: 0,
+    gender: '',
   });
 
   const [healthData, setHealthData] = useState({
-    // Thông số cơ bản
-    bmi: ((user.weight / Math.pow(user.height / 100, 2)).toFixed(1)),
+    bmi: 0,
     sleepTime: 7,
     genHealth: 'Good',
-    
-    // Chi tiết sức khỏe - readonly from backend
-    physicalHealth: 30, // Số ngày khỏe mạnh trong tháng
-    mentalHealth: 30, // Số ngày tinh thần tốt trong tháng
-    
-    // Các thông tin có thể chỉnh sửa
+    physicalHealth: 30,
+    mentalHealth: 30,
     physicalActivity: false,
     diffWalking: false,
     smoking: 'Never',
@@ -50,6 +60,36 @@ const Info = () => {
   const [editValues, setEditValues] = useState({...user});
   const [editHealthValues, setEditHealthValues] = useState({...healthData});
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        setLoading(true);
+        const [userData, bmiData] = await Promise.all([
+          userService.getUser(userId),
+          userService.getUserBMI(userId)
+        ]);
+
+        setUser(userData);
+        setEditValues(userData);
+
+        const updatedHealthData = {
+          ...healthData,
+          bmi: bmiData.bmi
+        };
+        setHealthData(updatedHealthData);
+        setEditHealthValues(updatedHealthData);
+
+      } catch (err) {
+        setError('Failed to fetch user data');
+        console.error('Error:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [userId]);
+
   const handleEditClick = () => {
     setEditValues({...user});
     setIsEditOpen(true);
@@ -60,14 +100,47 @@ const Info = () => {
     setIsHealthOpen(true);
   };
 
-  const handleSave = () => {
-    setUser({...editValues});
-    setIsEditOpen(false);
+  const handleSave = async () => {
+    const validationError = validateUserData(editValues);
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    try {
+      setSaving(true);
+      const updatedUser = await userService.updateUser(userId, editValues);
+      setUser(updatedUser);
+
+      const bmiData = await userService.getUserBMI(userId);
+      setHealthData(prevHealth => ({
+        ...prevHealth,
+        bmi: bmiData.bmi
+      }));
+
+      setIsEditOpen(false);
+      setError(null);
+    } catch (err) {
+      setError('Failed to update user information');
+      console.error('Error:', err);
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const handleHealthSave = () => {
-    setHealthData({...editHealthValues});
-    setIsHealthOpen(false);
+  const handleHealthSave = async () => {
+    try {
+      setSaving(true);
+      await userService.updateHealth(userId, editHealthValues);
+      setHealthData(editHealthValues);
+      setIsHealthOpen(false);
+      setError(null);
+    } catch (err) {
+      setError('Failed to update health information');
+      console.error('Error:', err);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleInputChange = (field, value) => {
@@ -83,6 +156,9 @@ const Info = () => {
       [field]: value
     }));
   };
+
+  if (loading) return <div className="loading">Loading...</div>;
+  if (error) return <div className="error-message">{error}</div>;
 
   return (
     <div className="user-info">
@@ -268,9 +344,9 @@ const Info = () => {
                   value={editHealthValues.smoking}
                   onChange={(e) => handleHealthInputChange('smoking', e.target.value)}
                 >
-                  <option value="Never">Never Smoked</option>
-                  <option value="Former">Former Smoker</option>
-                  <option value="Current">Current Smoker</option>
+                  <option value="false">No</option>
+                  <option value="true">Yes</option>
+                  
                 </select>
               </div>
               <div className="form-group">

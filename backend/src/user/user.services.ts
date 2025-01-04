@@ -38,4 +38,38 @@ export class UserServices {
     const deletedUser = await this.userModel.findByIdAndDelete(id).exec(); // Thay findByIdAndRemove() bằng findByIdAndDelete()
     return deletedUser;
   }
+
+
+   // Tính BMI
+   private calculateBMI(height: number, weight: number): number {
+    // Chuyển đổi chiều cao từ cm sang m
+    const heightInMeters = height / 100;
+    // Tính BMI = cân nặng / (chiều cao * chiều cao)
+    return Number((weight / (heightInMeters * heightInMeters)).toFixed(2));
+  }
+
+  // Phân loại BMI
+  private getBMICategory(bmi: number): string {
+    if (bmi < 18.5) return 'Thiếu cân';
+    if (bmi < 24.9) return 'Bình thường';
+    if (bmi < 29.9) return 'Thừa cân';
+    return 'Béo phì';
+  }
+
+  // Lấy thông tin BMI của người dùng
+  async getBMIInfo(id: string) {
+    const user = await this.userModel.findById(id).exec();
+    if (!user) {
+      return null;
+    }
+
+    const bmi = this.calculateBMI(user.height, user.weight);
+    return {
+      bmi,
+      category: this.getBMICategory(bmi),
+      height: user.height,
+      weight: user.weight
+    };
+  }
+  
 }
