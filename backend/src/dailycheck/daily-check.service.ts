@@ -41,4 +41,39 @@ export class DailyCheckService {
       .findOne({ timestamp: dateString })
       .exec();
   }
+
+   // Lấy số ngày có sức khỏe thể chất tốt trong 30 ngày gần nhất
+   async getGoodPhysicalHealthDaysInLast30Days(): Promise<number> {
+    const currentDate = new Date();
+    const pastDate = new Date();
+    pastDate.setDate(currentDate.getDate() - 30);
+
+    const query = {
+      timestamp: {
+        $gte: pastDate.toISOString().split('T')[0],
+        $lte: currentDate.toISOString().split('T')[0],
+      },
+      physicalHealth: 1,
+    };
+
+    return this.dailyCheckModel.countDocuments(query).exec();
+  }
+
+  // Lấy số ngày có sức khỏe tinh thần tốt trong 30 ngày gần nhất
+  async getGoodMentalHealthDaysInLast30Days(): Promise<number> {
+    const currentDate = new Date();
+    const pastDate = new Date();
+    pastDate.setDate(currentDate.getDate() - 30);
+
+    const query = {
+      timestamp: {
+        $gte: pastDate.toISOString().split('T')[0],
+        $lte: currentDate.toISOString().split('T')[0],
+      },
+      mentalHealth: 1,
+    };
+
+    return this.dailyCheckModel.countDocuments(query).exec();
+  }
+  
 }

@@ -1,9 +1,12 @@
-
 import React, { useState, useEffect } from 'react';
 import editIcon from '../../../../assets/edit.png';
 import docIcon from '../../../../assets/doc.png';
 import './info.css';
 import { userService } from '../../../../services/user/user';
+import { 
+  getGoodPhysicalHealthDaysInLast30Days, 
+  getGoodMentalHealthDaysInLast30Days 
+} from '../../../../services/daily';
 
 const formatDateOfBirth = (dateString) => {
   const date = new Date(dateString);
@@ -41,8 +44,8 @@ const Info = () => {
     bmi: 0,
     sleepTime: 7,
     genHealth: 'Good',
-    physicalHealth: 30,
-    mentalHealth: 30,
+    physicalHealth: 0,
+    mentalHealth: 0,
     physicalActivity: false,
     diffWalking: false,
     smoking: 'Never',
@@ -64,9 +67,11 @@ const Info = () => {
     const fetchUserData = async () => {
       try {
         setLoading(true);
-        const [userData, bmiData] = await Promise.all([
+        const [userData, bmiData, physicalHealthDays, mentalHealthDays] = await Promise.all([
           userService.getUser(userId),
-          userService.getUserBMI(userId)
+          userService.getUserBMI(userId),
+          getGoodPhysicalHealthDaysInLast30Days(),
+          getGoodMentalHealthDaysInLast30Days()
         ]);
 
         setUser(userData);
@@ -74,7 +79,9 @@ const Info = () => {
 
         const updatedHealthData = {
           ...healthData,
-          bmi: bmiData.bmi
+          bmi: bmiData.bmi,
+          physicalHealth: physicalHealthDays,
+          mentalHealth: mentalHealthDays
         };
         setHealthData(updatedHealthData);
         setEditHealthValues(updatedHealthData);
@@ -344,9 +351,9 @@ const Info = () => {
                   value={editHealthValues.smoking}
                   onChange={(e) => handleHealthInputChange('smoking', e.target.value)}
                 >
-                  <option value="false">No</option>
-                  <option value="true">Yes</option>
-                  
+                  <option value="Never">Never</option>
+                  <option value="Former">Former</option>
+                  <option value="Current">Current</option>
                 </select>
               </div>
               <div className="form-group">

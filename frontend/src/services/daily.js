@@ -46,3 +46,25 @@ export const updateDailyCheck = async (id, checkData) => {
     throw error;
   }
 };
+
+// Lấy số ngày có sức khỏe thể chất tốt trong 30 ngày gần nhất
+export const getGoodPhysicalHealthDaysInLast30Days = async () => {
+  try {
+    const { data } = await axios.get(`${BASE_URL}/physical-health/good-days/last-30-days`);
+    return data;
+  } catch (error) {
+    console.error('Không thể lấy số ngày có sức khỏe thể chất tốt trong 30 ngày gần nhất', error);
+    throw error;
+  }
+};
+
+// Lấy số ngày có sức khỏe tinh thần tốt trong 30 ngày gần nhất
+export const getGoodMentalHealthDaysInLast30Days = async () => {
+  try {
+    const { data } = await axios.get(`${BASE_URL}/mental-health/good-days/last-30-days`);
+    return data;
+  } catch (error) {
+    console.error('Không thể lấy số ngày có sức khỏe tinh thần tốt trong 30 ngày gần nhất', error);
+    throw error;
+  }
+};

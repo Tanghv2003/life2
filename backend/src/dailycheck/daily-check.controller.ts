@@ -44,4 +44,16 @@ export class DailyCheckController {
     }
     return dailyCheck;
   }
+
+   // Route để lấy số ngày có sức khỏe thể chất tốt trong 30 ngày gần nhất
+   @Get('physical-health/good-days/last-30-days')
+   async getGoodPhysicalHealthDaysInLast30Days(): Promise<number> {
+     return this.dailyCheckService.getGoodPhysicalHealthDaysInLast30Days();
+   }
+ 
+   // Route để lấy số ngày có sức khỏe tinh thần tốt trong 30 ngày gần nhất
+   @Get('mental-health/good-days/last-30-days')
+   async getGoodMentalHealthDaysInLast30Days(): Promise<number> {
+     return this.dailyCheckService.getGoodMentalHealthDaysInLast30Days();
+   }
 }
