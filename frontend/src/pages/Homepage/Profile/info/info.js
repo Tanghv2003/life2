@@ -28,7 +28,7 @@ const validateUserData = (data) => {
 
 const Info = () => {
   const userId = '67671fc9f438338fceba7540';
-  const healthRecordId = '6779728fa12f2a39e76cfa32';
+  const healthRecordId = '67797cc2a12f2a39e76cfa5e';
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [saving, setSaving] = useState(false);
@@ -42,15 +42,19 @@ const Info = () => {
     gender: '',
   });
 
+  // Tách riêng state cho dữ liệu sức khỏe hàng ngày
+  const [dailyHealthData, setDailyHealthData] = useState({
+    physicalHealth: 0,
+    mentalHealth: 0,
+  });
+
   const [healthData, setHealthData] = useState({
     bmi: 0,
     sleepTime: 7,
     genHealth: 'Good',
-    physicalHealth: 0,
-    mentalHealth: 0,
     physicalActivity: false,
     diffWalking: false,
-    smoking: 'Never',
+    smoking: false,
     alcoholDrinking: false,
     race: 'Asian',
     stroke: false,
@@ -65,30 +69,46 @@ const Info = () => {
   const [editValues, setEditValues] = useState({ ...user });
   const [editHealthValues, setEditHealthValues] = useState({ ...healthData });
 
+  // Hàm riêng để cập nhật dữ liệu sức khỏe hàng ngày
+  const updateDailyHealthData = async () => {
+    try {
+      const [physicalHealthDays, mentalHealthDays] = await Promise.all([
+        getGoodPhysicalHealthDaysInLast30Days(),
+        getGoodMentalHealthDaysInLast30Days()
+      ]);
+
+      setDailyHealthData({
+        physicalHealth: physicalHealthDays,
+        mentalHealth: mentalHealthDays,
+      });
+    } catch (err) {
+      console.error('Error fetching daily health data:', err);
+      setError('Failed to fetch daily health data');
+    }
+  };
+
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchAllData = async () => {
       try {
         setLoading(true);
-        const [userData, bmiData, physicalHealthDays, mentalHealthDays, healthRecord] = await Promise.all([
+        const [userData, bmiData, healthRecord] = await Promise.all([
           userService.getUser(userId),
           userService.getUserBMI(userId),
-          getGoodPhysicalHealthDaysInLast30Days(),
-          getGoodMentalHealthDaysInLast30Days(),
           healthService.getHealthRecordById(healthRecordId)
         ]);
 
         setUser(userData);
         setEditValues(userData);
 
-        const updatedHealthData = {
-          ...healthData,
+        // Cập nhật healthData với dữ liệu từ API
+        setHealthData(prevHealth => ({
+          ...prevHealth,
           bmi: bmiData.bmi,
-          physicalHealth: physicalHealthDays,
-          mentalHealth: mentalHealthDays,
           ...healthRecord
-        };
-        setHealthData(updatedHealthData);
-        setEditHealthValues(updatedHealthData);
+        }));
+
+        // Cập nhật dữ liệu sức khỏe hàng ngày
+        await updateDailyHealthData();
 
       } catch (err) {
         setError('Failed to fetch user data');
@@ -98,7 +118,7 @@ const Info = () => {
       }
     };
 
-    fetchUserData();
+    fetchAllData();
   }, [userId, healthRecordId]);
 
   const handleEditClick = () => {
@@ -107,10 +127,15 @@ const Info = () => {
   };
 
   const handleHealthClick = () => {
-    setEditHealthValues({ ...healthData });
+    setEditHealthValues({ 
+      ...healthData,
+      physicalHealth: dailyHealthData.physicalHealth,
+      mentalHealth: dailyHealthData.mentalHealth,
+    });
     setIsHealthOpen(true);
   };
 
+  // Các hàm xử lý không thay đổi
   const handleSave = async () => {
     const validationError = validateUserData(editValues);
     if (validationError) {
@@ -124,7 +149,7 @@ const Info = () => {
       setUser(updatedUser);
 
       const bmiData = await userService.getUserBMI(userId);
-      setHealthData((prevHealth) => ({
+      setHealthData(prevHealth => ({
         ...prevHealth,
         bmi: bmiData.bmi
       }));
@@ -144,6 +169,10 @@ const Info = () => {
       setSaving(true);
       const updatedHealthRecord = await healthService.updateHealthRecord(healthRecordId, editHealthValues);
       setHealthData(updatedHealthRecord);
+      
+      // Cập nhật lại dữ liệu sức khỏe hàng ngày sau khi lưu
+      await updateDailyHealthData();
+      
       setIsHealthOpen(false);
       setError(null);
     } catch (err) {
@@ -155,14 +184,14 @@ const Info = () => {
   };
 
   const handleInputChange = (field, value) => {
-    setEditValues((prev) => ({
+    setEditValues(prev => ({
       ...prev,
       [field]: value
     }));
   };
 
   const handleHealthInputChange = (field, value) => {
-    setEditHealthValues((prev) => ({
+    setEditHealthValues(prev => ({
       ...prev,
       [field]: value
     }));
