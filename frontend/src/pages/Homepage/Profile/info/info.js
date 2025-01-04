@@ -1,6 +1,7 @@
 // Info.js
 import React from 'react';
 import editIcon from '../../../../assets/edit.png';
+import docIcon from '../../../../assets/doc.png';
 import './info.css';
 
 // Hàm để định dạng ngày sinh chỉ bao gồm ngày, tháng và năm
@@ -28,9 +29,17 @@ class Info extends React.Component {
         {/* Phần tiêu đề và nút edit */}
         <div className="header1a">
           <h2>My Profile</h2>
+
+          <div>
           <button className="edit-btn">
             <img src={editIcon} alt="Edit" />
           </button>
+
+          <button className="edit-btn">
+            <img src={docIcon} alt="Edit" />
+          </button>
+          </div>
+          
         </div>
 
         {/* Phần avatar và thông tin người dùng */}

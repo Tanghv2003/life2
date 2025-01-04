@@ -58,7 +58,7 @@
   
   .user-info .header1a {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; 
     align-items: center;
     background-color: #2279BE;
     height: 25%;

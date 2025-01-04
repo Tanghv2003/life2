@@ -180,12 +180,12 @@ specificity = tn / (tn + fp)
 
 print(f"Mô hình: Logistic Regression")
 print(f"Độ chính xác: {accuracy:.2f}")
-print(f"Báo cáo phân loại:\n{C_report}\n")
-print(f"Precision: {precision:.2f}")
-print(f"Recall: {recall:.2f}")
-print(f"Specificity: {specificity:.2f}")
-print(f"F1 Score: {f1:.2f}")
-print(f"ROC AUC: {roc_auc:.2f}")
+# print(f"Báo cáo phân loại:\n{C_report}\n")
+# print(f"Precision: {precision:.2f}")
+# print(f"Recall: {recall:.2f}")
+# print(f"Specificity: {specificity:.2f}")
+# print(f"F1 Score: {f1:.2f}")
+# print(f"ROC AUC: {roc_auc:.2f}")
 
 model_results['Logistic Regression'] = {
     'Accuracy': accuracy,
