@@ -1,77 +1,59 @@
-// src/medical/dto/create-medical.dto.ts
-
-import { IsBoolean, IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateMedicalDto {
   @IsOptional()
   @IsBoolean()
-  heartDisease: boolean;
+  smoking: boolean; // Hút thuốc
+
+  @IsOptional()
+  @IsBoolean()
+  alcoholDrinking: boolean; // Uống rượu
+
+  @IsOptional()
+  @IsBoolean()
+  stroke: boolean; // Đột quỵ
 
   @IsOptional()
   @IsNumber()
-  bmi: number;
-
-  @IsOptional()
-  @IsBoolean()
-  smoking: boolean;
-
-  @IsOptional()
-  @IsBoolean()
-  alcoholDrinking: boolean;
-
-  @IsOptional()
-  @IsBoolean()
-  stroke: boolean;
+  physicalHealth: number; // Sức khỏe thể chất, số ngày tốt trong tháng
 
   @IsOptional()
   @IsNumber()
-  physicalHealth: number;
+  mentalHealth: number; // Sức khỏe tinh thần số ngày tốt trong tháng
+
+  @IsOptional()
+  @IsBoolean()
+  diffWalking: boolean; // Khó khăn trong việc đi lại
+
+  @IsOptional()
+  @IsString()
+  race: string; // Chủng tộc
+
+  @IsOptional()
+  @IsBoolean()
+  diabetic: boolean; // Bệnh tiểu đường
+
+  @IsOptional()
+  @IsBoolean()
+  physicalActivity: boolean; // Hoạt động thể chất
+
+  @IsOptional()
+  @IsString()
+  genHealth: string; // Sức khỏe chung
 
   @IsOptional()
   @IsNumber()
-  mentalHealth: number;
+  sleepTime: number; // Thời gian ngủ
 
   @IsOptional()
   @IsBoolean()
-  diffWalking: boolean;
-
-  @IsOptional()
-  @IsString()
-  sex: string;
-
-  @IsOptional()
-  @IsString()
-  ageCategory: string;
-
-  @IsOptional()
-  @IsString()
-  race: string;
+  asthma: boolean; // Bệnh hen suyễn
 
   @IsOptional()
   @IsBoolean()
-  diabetic: boolean;
+  kidneyDisease: boolean; // Bệnh thận
 
   @IsOptional()
   @IsBoolean()
-  physicalActivity: boolean;
-
-  @IsOptional()
-  @IsString()
-  genHealth: string;
-
-  @IsOptional()
-  @IsNumber()
-  sleepTime: number;
-
-  @IsOptional()
-  @IsBoolean()
-  asthma: boolean;
-
-  @IsOptional()
-  @IsBoolean()
-  kidneyDisease: boolean;
-
-  @IsOptional()
-  @IsBoolean()
-  skinCancer: boolean;
+  skinCancer: boolean; // Ung thư da
 }

@@ -3,6 +3,7 @@ import editIcon from '../../../../assets/edit.png';
 import docIcon from '../../../../assets/doc.png';
 import './info.css';
 import { userService } from '../../../../services/user/user';
+import { healthService } from '../../../../services/medical';
 import { 
   getGoodPhysicalHealthDaysInLast30Days, 
   getGoodMentalHealthDaysInLast30Days 
@@ -27,6 +28,7 @@ const validateUserData = (data) => {
 
 const Info = () => {
   const userId = '67671fc9f438338fceba7540';
+  const healthRecordId = '6779728fa12f2a39e76cfa32';
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [saving, setSaving] = useState(false);
@@ -60,18 +62,19 @@ const Info = () => {
 
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isHealthOpen, setIsHealthOpen] = useState(false);
-  const [editValues, setEditValues] = useState({...user});
-  const [editHealthValues, setEditHealthValues] = useState({...healthData});
+  const [editValues, setEditValues] = useState({ ...user });
+  const [editHealthValues, setEditHealthValues] = useState({ ...healthData });
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         setLoading(true);
-        const [userData, bmiData, physicalHealthDays, mentalHealthDays] = await Promise.all([
+        const [userData, bmiData, physicalHealthDays, mentalHealthDays, healthRecord] = await Promise.all([
           userService.getUser(userId),
           userService.getUserBMI(userId),
           getGoodPhysicalHealthDaysInLast30Days(),
-          getGoodMentalHealthDaysInLast30Days()
+          getGoodMentalHealthDaysInLast30Days(),
+          healthService.getHealthRecordById(healthRecordId)
         ]);
 
         setUser(userData);
@@ -81,7 +84,8 @@ const Info = () => {
           ...healthData,
           bmi: bmiData.bmi,
           physicalHealth: physicalHealthDays,
-          mentalHealth: mentalHealthDays
+          mentalHealth: mentalHealthDays,
+          ...healthRecord
         };
         setHealthData(updatedHealthData);
         setEditHealthValues(updatedHealthData);
@@ -95,15 +99,15 @@ const Info = () => {
     };
 
     fetchUserData();
-  }, [userId]);
+  }, [userId, healthRecordId]);
 
   const handleEditClick = () => {
-    setEditValues({...user});
+    setEditValues({ ...user });
     setIsEditOpen(true);
   };
 
   const handleHealthClick = () => {
-    setEditHealthValues({...healthData});
+    setEditHealthValues({ ...healthData });
     setIsHealthOpen(true);
   };
 
@@ -120,7 +124,7 @@ const Info = () => {
       setUser(updatedUser);
 
       const bmiData = await userService.getUserBMI(userId);
-      setHealthData(prevHealth => ({
+      setHealthData((prevHealth) => ({
         ...prevHealth,
         bmi: bmiData.bmi
       }));
@@ -138,8 +142,8 @@ const Info = () => {
   const handleHealthSave = async () => {
     try {
       setSaving(true);
-      await userService.updateHealth(userId, editHealthValues);
-      setHealthData(editHealthValues);
+      const updatedHealthRecord = await healthService.updateHealthRecord(healthRecordId, editHealthValues);
+      setHealthData(updatedHealthRecord);
       setIsHealthOpen(false);
       setError(null);
     } catch (err) {
@@ -151,14 +155,14 @@ const Info = () => {
   };
 
   const handleInputChange = (field, value) => {
-    setEditValues(prev => ({
+    setEditValues((prev) => ({
       ...prev,
       [field]: value
     }));
   };
 
   const handleHealthInputChange = (field, value) => {
-    setEditHealthValues(prev => ({
+    setEditHealthValues((prev) => ({
       ...prev,
       [field]: value
     }));
@@ -351,9 +355,9 @@ const Info = () => {
                   value={editHealthValues.smoking}
                   onChange={(e) => handleHealthInputChange('smoking', e.target.value)}
                 >
-                  <option value="Never">Never</option>
-                  <option value="Former">Former</option>
-                  <option value="Current">Current</option>
+                  <option value="true">Yes</option>
+                  <option value="false">No</option>
+                  
                 </select>
               </div>
               <div className="form-group">

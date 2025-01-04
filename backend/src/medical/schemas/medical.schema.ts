@@ -1,45 +1,35 @@
-// src/medical/schemas/medical.schema.ts
-
 import { Schema, Document } from 'mongoose';
 
 export const MedicalRecordSchema = new Schema({
-  heartDisease: { type: Boolean, required: false },
-  bmi: { type: Number, required: false },
-  smoking: { type: Boolean, required: false },
-  alcoholDrinking: { type: Boolean, required: false },
-  stroke: { type: Boolean, required: false },
-  physicalHealth: { type: Number, required: false },
-  mentalHealth: { type: Number, required: false },
-  diffWalking: { type: Boolean, required: false },
-  sex: { type: String, required: false },
-  ageCategory: { type: String, required: false },
-  race: { type: String, required: false },
-  diabetic: { type: Boolean, required: false },
-  physicalActivity: { type: Boolean, required: false },
-  genHealth: { type: String, required: false },
-  sleepTime: { type: Number, required: false },
-  asthma: { type: Boolean, required: false },
-  kidneyDisease: { type: Boolean, required: false },
-  skinCancer: { type: Boolean, required: false },
+  smoking: { type: Boolean, required: false }, // Hút thuốc
+  alcoholDrinking: { type: Boolean, required: false }, // Uống rượu
+  stroke: { type: Boolean, required: false }, // Đột quỵ
+  physicalHealth: { type: Number, required: false }, // Sức khỏe thể chất, số ngày tốt trong tháng
+  mentalHealth: { type: Number, required: false }, // Sức khỏe tinh thần số ngày tốt trong tháng
+  diffWalking: { type: Boolean, required: false }, // Khó khăn trong việc đi lại
+  race: { type: String, required: false }, // Chủng tộc
+  diabetic: { type: Boolean, required: false }, // Bệnh tiểu đường
+  physicalActivity: { type: Boolean, required: false }, // Hoạt động thể chất
+  genHealth: { type: String, required: false }, // Sức khỏe chung
+  sleepTime: { type: Number, required: false }, // Thời gian ngủ
+  asthma: { type: Boolean, required: false }, // Bệnh hen suyễn
+  kidneyDisease: { type: Boolean, required: false }, // Bệnh thận
+  skinCancer: { type: Boolean, required: false }, // Ung thư da
 });
 
 export interface MedicalRecord extends Document {
-  heartDisease: boolean;
-  bmi: number;
-  smoking: boolean;
-  alcoholDrinking: boolean;
-  stroke: boolean;
-  physicalHealth: number;
-  mentalHealth: number;
-  diffWalking: boolean;
-  sex: string;
-  ageCategory: string;
-  race: string;
-  diabetic: boolean;
-  physicalActivity: boolean;
-  genHealth: string;
-  sleepTime: number;
-  asthma: boolean;
-  kidneyDisease: boolean;
-  skinCancer: boolean;
+  smoking: boolean; // Hút thuốc
+  alcoholDrinking: boolean; // Uống rượu
+  stroke: boolean; // Đột quỵ
+  physicalHealth: number; // Sức khỏe thể chất, số ngày tốt trong tháng
+  mentalHealth: number; // Sức khỏe tinh thần số ngày tốt trong tháng
+  diffWalking: boolean; // Khó khăn trong việc đi lại
+  race: string; // Chủng tộc
+  diabetic: boolean; // Bệnh tiểu đường
+  physicalActivity: boolean; // Hoạt động thể chất
+  genHealth: string; // Sức khỏe chung
+  sleepTime: number; // Thời gian ngủ
+  asthma: boolean; // Bệnh hen suyễn
+  kidneyDisease: boolean; // Bệnh thận
+  skinCancer: boolean; // Ung thư da
 }
