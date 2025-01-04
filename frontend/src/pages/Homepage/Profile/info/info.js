@@ -1,65 +1,149 @@
-// Info.js
-import React from 'react';
+import React, { useState } from 'react';
 import editIcon from '../../../../assets/edit.png';
 import docIcon from '../../../../assets/doc.png';
 import './info.css';
 
-// Hàm để định dạng ngày sinh chỉ bao gồm ngày, tháng và năm
 const formatDateOfBirth = (dateString) => {
   const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', { // Sử dụng tiếng Anh
-    year: 'numeric', month: 'long', day: 'numeric' // Chỉ lấy ngày, tháng, năm
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
   });
 };
 
-class Info extends React.Component {
-  render() {
-    // Thông tin người dùng mặc định
-    const user = {
-      name: 'Nguyễn Văn A',
-      avatar: 'https://example.com/avatar.png',
-      dateOfBirth: '1998-12-15',
-      height: 170,
-      weight: 65,
-      gender: 'Male',  // Giới tính bằng tiếng Anh
-    };
+const Info = () => {
+  // State cho thông tin người dùng
+  const [user, setUser] = useState({
+    name: 'Nguyễn Văn A',
+    avatar: 'https://example.com/avatar.png',
+    dateOfBirth: '1998-12-15',
+    height: 170,
+    weight: 65,
+    gender: 'Male',
+  });
 
-    return (
-      <div className="user-info">
-        {/* Phần tiêu đề và nút edit */}
-        <div className="header1a">
-          <h2>My Profile</h2>
+  // State để điều khiển hiển thị modal
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  
+  // State cho giá trị đang chỉnh sửa
+  const [editValues, setEditValues] = useState({...user});
 
-          <div>
-          <button className="edit-btn">
+  // Xử lý mở modal chỉnh sửa
+  const handleEditClick = () => {
+    setEditValues({...user});
+    setIsEditOpen(true);
+  };
+
+  // Xử lý lưu thay đổi
+  const handleSave = () => {
+    setUser({...editValues});
+    setIsEditOpen(false);
+  };
+
+  // Xử lý thay đổi input
+  const handleInputChange = (field, value) => {
+    setEditValues(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  return (
+    <div className="user-info">
+      <div className="header1a">
+        <h2>My Profile</h2>
+        <div>
+          <button className="edit-btn" onClick={handleEditClick}>
             <img src={editIcon} alt="Edit" />
           </button>
-
           <button className="edit-btn">
             <img src={docIcon} alt="Edit" />
           </button>
-          </div>
-          
-        </div>
-
-        {/* Phần avatar và thông tin người dùng */}
-        <div className="user-info-content">
-          <img src={user.avatar} alt="Avatar" className="avatar" />
-          <div className="user-details">
-            <p><strong>Name:</strong> {user.name}</p> {/* Sửa "Tên" thành "Name" */}
-            <p><strong>Date of Birth:</strong> {formatDateOfBirth(user.dateOfBirth)}</p> {/* Ngày sinh chỉ hiển thị ngày, tháng, năm */}
-          </div>
-        </div>
-
-        {/* Thông tin chiều cao, cân nặng và giới tính nằm ngang hàng */}
-        <div className="user-stats">
-          <p><strong>Height:</strong><span className="stat-value">{user.height} cm</span></p> {/* Sửa "Chiều cao" thành "Height" */}
-          <p><strong>Weight:</strong><span className="stat-value">{user.weight} kg</span></p> {/* Sửa "Cân nặng" thành "Weight" */}
-          <p><strong>Gender:</strong><span className="stat-value">{user.gender}</span></p> {/* Sửa "Giới tính" thành "Gender" */}
         </div>
       </div>
-    );
-  }
-}
+
+      <div className="user-info-content">
+        <img src={user.avatar} alt="Avatar" className="avatar" />
+        <div className="user-details">
+          <p><strong>Name:</strong> {user.name}</p>
+          <p><strong>Date of Birth:</strong> {formatDateOfBirth(user.dateOfBirth)}</p>
+        </div>
+      </div>
+
+      <div className="user-stats">
+        <p><strong>Height:</strong><span className="stat-value">{user.height} cm</span></p>
+        <p><strong>Weight:</strong><span className="stat-value">{user.weight} kg</span></p>
+        <p><strong>Sex:</strong><span className="stat-value">{user.gender}</span></p>
+      </div>
+
+      {/* Modal chỉnh sửa */}
+      {isEditOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>UPDATE INFOMATION</h2>
+            
+            <div className="form-group">
+              <label>Name:</label>
+              <input
+                type="text"
+                value={editValues.name}
+                onChange={(e) => handleInputChange('name', e.target.value)}
+              />
+            </div>
+            
+            <div className="form-group">
+              <label>Date of Birth:</label>
+              <input
+                type="date"
+                value={editValues.dateOfBirth}
+                onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
+              />
+            </div>
+            
+            <div className="form-group">
+              <label>Height: (cm):</label>
+              <input
+                type="number"
+                value={editValues.height}
+                onChange={(e) => handleInputChange('height', parseInt(e.target.value))}
+              />
+            </div>
+            
+            <div className="form-group">
+              <label> Weight (kg):</label>
+              <input
+                type="number"
+                value={editValues.weight}
+                onChange={(e) => handleInputChange('weight', parseInt(e.target.value))}
+              />
+            </div>
+            
+            <div className="form-group">
+              <label>Sex:</label>
+              <select
+                value={editValues.gender}
+                onChange={(e) => handleInputChange('gender', e.target.value)}
+              >
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div className="modal-buttons">
+              <button className="btn-cancel" onClick={() => setIsEditOpen(false)}>
+                Cancel
+              </button>
+              <button className="btn-save" onClick={handleSave}>
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default Info;
