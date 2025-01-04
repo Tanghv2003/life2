@@ -14,14 +14,6 @@ export class CreateMedicalDto {
   stroke: boolean; // Đột quỵ
 
   @IsOptional()
-  @IsNumber()
-  physicalHealth: number; // Sức khỏe thể chất, số ngày tốt trong tháng
-
-  @IsOptional()
-  @IsNumber()
-  mentalHealth: number; // Sức khỏe tinh thần số ngày tốt trong tháng
-
-  @IsOptional()
   @IsBoolean()
   diffWalking: boolean; // Khó khăn trong việc đi lại
 

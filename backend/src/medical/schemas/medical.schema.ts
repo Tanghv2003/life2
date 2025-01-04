@@ -4,8 +4,6 @@ export const MedicalRecordSchema = new Schema({
   smoking: { type: Boolean, required: false }, // Hút thuốc
   alcoholDrinking: { type: Boolean, required: false }, // Uống rượu
   stroke: { type: Boolean, required: false }, // Đột quỵ
-  physicalHealth: { type: Number, required: false }, // Sức khỏe thể chất, số ngày tốt trong tháng
-  mentalHealth: { type: Number, required: false }, // Sức khỏe tinh thần số ngày tốt trong tháng
   diffWalking: { type: Boolean, required: false }, // Khó khăn trong việc đi lại
   race: { type: String, required: false }, // Chủng tộc
   diabetic: { type: Boolean, required: false }, // Bệnh tiểu đường
@@ -21,8 +19,6 @@ export interface MedicalRecord extends Document {
   smoking: boolean; // Hút thuốc
   alcoholDrinking: boolean; // Uống rượu
   stroke: boolean; // Đột quỵ
-  physicalHealth: number; // Sức khỏe thể chất, số ngày tốt trong tháng
-  mentalHealth: number; // Sức khỏe tinh thần số ngày tốt trong tháng
   diffWalking: boolean; // Khó khăn trong việc đi lại
   race: string; // Chủng tộc
   diabetic: boolean; // Bệnh tiểu đường
